@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <link href="${pageContext.request.contextPath}/resources/static/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+       <link href="${pageContext.request.contextPath}/resources/static/css/styles.css" type="text/css" rel="stylesheet">
+       <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+       <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+       <title>mójPrzepiśnik</title>
+</head>
+<body>
+
+	<div class="myHeader">
+            <h4 th:if="${user!=null}" style="margin-bottom: 0px;" th:text="Witaj ${user.username}"></h4>
+            <h4 th:unless="${user!=null}" style="margin-bottom: 0px;" th:text="Witaj nieznajomy!"></h4>
+            <div class="myRow">
+                <h2 style="margin-top: 5px; margin-bottom: 0;">Witaj w aplikacji &nbsp</h2>
+                <h2 style="margin-top: 5px; margin-bottom: 0; font-family: 'Indie Flower', cursive;"><b>mójPrzepiśnik</b></h2>
+            </div>    
+            <h5 style="margin-top:10px;">Przygotuj na dzisiaj coś wyjątkowego !</h5>
+        </div>
+        
+         <div class="myRow" style="position: sticky; position: -webkit-sticky; top: 0;">
+            
+            <div class="myTopNav" id="myTopNav">
+                <div class="navHeader" style="font-family: 'Indie Flower', cursive;"> 
+                    <a th:href="@{/}"><b>mójPrzepiśnik</b></a>
+                    <a href="javascript:void(0);" class="icon" onclick="showTopNav()">
+                        <i class="fa fa-bars"></i>
+                    </a>
+                </div>
+                
+                <a th:href="@{/}">Strona główna</a> 
+                <a th:href="@{/userpage}">Moje przepisy</a> 
+                <a th:href="@{/add}">Dodaj przepis</a>
+                <a th:if="${user}" th:href="@{/logout}">Wyloguj</a>
+                <a th:unless="${user}" th:href="@{/login}">Zaloguj</a>
+            </div>
+        </div>  
+        
+        
+        <div class="myRow">
+            <div class="mySide" >
+                <div class="navHeader" style="justify-content: center; font-size: 17px; background-color: #1abc9c;">
+                    <a th:href="@{#}"><b>Czego szukasz?</b></a>
+                    <a href="javascript:void(0);" class="icon" onclick="showSideNav()">
+                     <i class="fa fa-bars"></i>
+                    </a>
+                </div>
+                <div class="mySideNav" id="mySideNav">
+                    <a th:href="@{/}">Pokaż wszystkie</a> 
+                    <a th:if="${categories!=null}" th:each="category:${categories}" th:href="@{/category?${category}}" th:text="${category}"></a>
+                </div>
+            </div>
+            <div class="myMain">
+                        <div th:if="${recipes!=null}" th:each=recipe:${recipes} class="myRow">
+                          <div class ="myVote">
+                              <a th:href="@{/vote?recipe_id=${recipe.id}&vote=VOTE_UP" class="btn btn-block btn-primary btn-success" style="background-color: #1abc9c;"><span class="glyphicon glyphicon-thumbs-up"></span></a>
+                            <div class="well-sm well" style="text-align: center; margin: 0;">
+                                <p th:text="${recipe.upVote - recipe.downVote}"></p>
+                            </div>
+                              <a th:href="@{/vote?recipe_id=${recipe.id}&vote=VOTE_DOWN" class="btn btn-block btn-primary btn-danger"><span class="glyphicon glyphicon-thumbs-down"></span></a>
+                         </div>
+                          <div class="myRecipe">  
+                              <h2 style="margin-top:6px;" th:text="${recipe.name}"/></h2>
+                              <p style="color:grey;">Kategorie: </p>    
+                              <p style="color:grey;" th:each="category:${recipe.category}" th:text="${category.name}"></p>    
+                            <div style="padding: 10px;">
+                                <p th:text="${recipe.description}"/></p>
+                            </div>
+                            <p style="color:grey;">Dodano przez </p>
+                            <p style="color:grey;" th:text="${recipe.user.username}"></p>
+                            <p style="color:grey;">Dnia: </p>
+                            <p style="color:grey" th:text="${#dates.format(recipe.timestamp,'dd-MMM-yyyy')}"></p>
+                            <div class="myRow">
+                                <a th:href="@{recipe.ulr}" th:text="Przejdź do strony" class="btn btn-primary btn-info" style="margin: 5px;padding-left: 20px; padding-right: 20px;"></a>
+                                <a th:href="@{/like?recipe_id=${recipe.id}&recipe_user_id=${recipe.user.id}}" th:text="Dodaj do ulubionych" class="btn btn-primary btn-warning" style="margin: 5px;"></a>
+                            </div>    
+                        </div>  
+                        </div>
+            </div>
+        </div>
+        
+        <div class="myFooter">
+            <h6>Copyright &copy; Emil Karpowicz</h6>
+        </div>
+        
+        <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+        <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+        <script src="resources/js/bootstrap.min.js"></script>
+ 
+        <script>
+        function showTopNav() {
+            var x = document.getElementById("myTopNav");
+            if (x.className === "myTopNav") {
+                x.className += " responsive";
+            } else {
+                x.className = "myTopNav";
+            }
+        }
+        </script>
+        <script>
+        function showSideNav() {
+            var x = document.getElementById("mySideNav");
+            if (x.className === "mySideNav") {
+                x.className += " responsive";
+            } else {
+                x.className = "mySideNav";
+            }
+        }
+        </script>
+
+</body>
+</html>
