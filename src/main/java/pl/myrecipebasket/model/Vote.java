@@ -15,9 +15,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="vote")
-public class Vote implements Serializable{
+public class Vote{
 
-	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

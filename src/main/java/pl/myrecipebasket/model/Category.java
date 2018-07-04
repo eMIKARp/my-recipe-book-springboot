@@ -7,19 +7,19 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 @Entity
 @Table(name="category")
-public class Category implements Serializable{
+public class Category{
 
-	private static final long serialVersionUID = 1L;
-	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_category")
@@ -31,8 +31,8 @@ public class Category implements Serializable{
 	@Column(name="cat_description")
 	private String cDescription;
 	@ManyToMany(mappedBy="rCategories",
-			fetch=FetchType.EAGER,
 			cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Recipe> cRecipes = new ArrayList<>();
 	
 	public Category() {

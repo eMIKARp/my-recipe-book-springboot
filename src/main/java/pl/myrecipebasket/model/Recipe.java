@@ -19,12 +19,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 @Entity
 @Table(name="recipe")
-public class Recipe implements Serializable{
+public class Recipe{
 
-	private static final long serialVersionUID = 1L;
-	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_recipe")
@@ -37,8 +38,8 @@ public class Recipe implements Serializable{
 	private int DownVote;
 	private boolean isShared;
 	
-	@ManyToMany(fetch=FetchType.EAGER,
-		cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
+	@ManyToMany(cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@JoinTable(name="recipe_category",
 		joinColumns= {@JoinColumn(name="recipe_id", referencedColumnName="id_recipe")},
 		inverseJoinColumns= {@JoinColumn(name="category_id", referencedColumnName="id_category")})
@@ -49,12 +50,14 @@ public class Recipe implements Serializable{
 	@JoinColumn(name="user_id")
 	private User usrWhoAddedRecipe;
 	
-	@OneToMany(mappedBy="recipe", fetch=FetchType.EAGER,
+	@OneToMany(mappedBy="recipe",
 		cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Vote> votes = new ArrayList<>();
 	
-	@ManyToMany(mappedBy="favRecipes", fetch=FetchType.EAGER,
+	@ManyToMany(mappedBy="favRecipes",
 		cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<User> usrWhoAddedRecipeToFavourites = new ArrayList<>();
 
 	

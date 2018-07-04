@@ -15,11 +15,14 @@ public class HomeController {
 
 	@GetMapping("/")
 	public String home(Model model) {
+	
+	
 		model.addAttribute("user", new User());
 		model.addAttribute("category", new Category());
 		model.addAttribute("recipe", new Recipe());
 		model.addAttribute("role",new Role());
 		model.addAttribute("vote",new Vote());
+
 		
 		return "homepage";
 	}

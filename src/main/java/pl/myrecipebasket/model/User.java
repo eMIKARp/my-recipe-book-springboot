@@ -7,7 +7,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,11 +16,12 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 @Entity
 @Table(name="user")
-public class User implements Serializable{
-
-	private static final long serialVersionUID = 1L;
+public class User{
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -31,23 +31,27 @@ public class User implements Serializable{
 	private String email;
 	private String password;
 	private boolean isActive;
-	@ManyToMany(fetch=FetchType.EAGER,
-		cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
-	@JoinTable(name="user_role)",
+	@ManyToMany(cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@JoinTable(name="user_role",
 	joinColumns= {@JoinColumn(name="user_id", referencedColumnName="id_user")},
 	inverseJoinColumns= {@JoinColumn(name="role_id", referencedColumnName="id_role")})
 	private List<Role> roles = new ArrayList<>();
-	@OneToMany(mappedBy="usrWhoAddedRecipe", fetch=FetchType.EAGER,
+	@OneToMany(mappedBy="usrWhoAddedRecipe",
 		cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Recipe> ownRecipes = new ArrayList<>();
-	@ManyToMany(fetch=FetchType.EAGER,
-		cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
-	@JoinTable(name="user_favourite_recipes)",
+	
+	@ManyToMany(cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@JoinTable(name="user_favourite_recipes",
 	joinColumns= {@JoinColumn(name="user_id", referencedColumnName="id_user")},
 	inverseJoinColumns= {@JoinColumn(name="recipe_id", referencedColumnName="id_recipe")})
 	private List<Recipe> favRecipes = new ArrayList<>();
-	@OneToMany(mappedBy="user", fetch=FetchType.EAGER,
+	
+	@OneToMany(mappedBy="user",
 		cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Vote> votes = new ArrayList<>();
 	
 	public User() {
