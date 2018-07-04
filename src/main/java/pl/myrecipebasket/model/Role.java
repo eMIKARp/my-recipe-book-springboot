@@ -30,12 +30,12 @@ public class Role implements Serializable{
 		cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
 	private List<User> users = new ArrayList<>();
 	
-	public Role() {
-		
-	}
 	
+
+	public Role() {
+	}
+
 	public Role(String role, String description) {
-		super();
 		this.role = role;
 		this.description = description;
 	}
