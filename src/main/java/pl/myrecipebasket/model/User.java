@@ -34,7 +34,7 @@ public class User{
 	@NotEmpty
 	private String password;
 	private boolean isActive;
-	@ManyToMany(cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
+	@ManyToMany
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@JoinTable(name="user_role",
 	joinColumns= {@JoinColumn(name="user_id", referencedColumnName="id_user")},

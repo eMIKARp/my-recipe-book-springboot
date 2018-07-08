@@ -18,7 +18,7 @@ import pl.myrecipebasket.model.Vote;
 import pl.myrecipebasket.service.UserService;
 
 @Controller
-public class UserController {
+public class RegisterController {
 
 	private UserService userService;
 	
@@ -35,7 +35,6 @@ public class UserController {
 	
 	@GetMapping("/registerSuccess")
 	public String registerSuccess(Model model) {
-		
 		return "registerSuccess";
 	}
 	

@@ -22,10 +22,5 @@ public class LoginController {
 	public String getLogin() {
 		return "login";
 	}	
-	
-	@PostMapping("/login")
-	public String postLogin() {
-		return "redirect:homepage";
-	}
 }
 	

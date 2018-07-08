@@ -20,7 +20,7 @@
         
         <div class="myColumn" style="background-color: #f1f1f1;">
            <div class="myForm">
-               <form action="#" th:action="@{/register}" th:object="${user}" method="post">
+               <form action="register" th:action="@{/register}" th:object="${user}" method="post">
                        <h3 class="form-signin-heading" th:text="#{register.register}">Register</h3>
                        <input th:field="*{email}" type="email" class="form-control" style="margin-bottom: 5px;" th:placeholder="#{register.email}"/>
                        <input th:field="*{username}" type="text" class="form-control" style="margin-bottom: 5px;" th:placeholder="#{register.username}"/>

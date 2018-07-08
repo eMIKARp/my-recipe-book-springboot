@@ -26,8 +26,7 @@ public class Role{
 	private Long id;
 	private String role;
 	private String description;
-	@ManyToMany(mappedBy="roles",
-		cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
+	@ManyToMany(mappedBy="roles")
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<User> users = new ArrayList<>();
 	
