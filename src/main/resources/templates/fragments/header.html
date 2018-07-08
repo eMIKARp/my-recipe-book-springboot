@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org/extras/dialect" 
+	xmlns:th="http://www.thymeleaf.org" 
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	
+<head>
+	   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+       <link th:href="@{css/bootstrap.min.css}" type="text/css" rel="stylesheet"/>
+       <link th:href="@{css/styles.css}" type="text/css" rel="stylesheet"/>
+       <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"/>
+       <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet"/>
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+       <title>mójPrzepiśnik</title>
+</head>
+<body>
+
+	<div class="myHeader" th:fragment="header">
+	   <h4 sec:authorize="isAuthenticated()" style="margin-bottom: 0px;" th:text="#{header.hiMsg} + ${#authentication.name} + '!'">Hello user</h4>
+       <h4 sec:authorize="!isAuthenticated()" style="margin-bottom: 0px;" th:text="#{header.hiStrangerMsg}">Hello stranger</h4>
+	    
+
+	     <div class="myRow">
+	         <h2 style="margin-top: 5px; margin-bottom: 0;" th:text="#{header.welcomeInAppMsg}">Welcome in</h2>
+	         <h2 style="margin-top: 5px; margin-bottom: 0;">&nbsp;</h2>
+	         <h2 style="margin-top: 5px; margin-bottom: 0; font-weight: 700;font-family: 'Indie Flower', cursive;" th:text="#{header.appName}">myRecipeBasket</h2>
+	     </div>    
+	     <h5 style="margin-top:10px;" th:text="#{header.prepareSomething}">Prepare something special for tonight</h5>
+	 </div>
+      
+  
+</body>
+</html>

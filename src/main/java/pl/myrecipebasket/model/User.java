@@ -18,6 +18,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name="user")
@@ -28,7 +29,9 @@ public class User{
 	@Column(name="id_user")
 	private Long id;
 	private String username;
+	@NotEmpty
 	private String email;
+	@NotEmpty
 	private String password;
 	private boolean isActive;
 	@ManyToMany(cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
@@ -58,12 +61,12 @@ public class User{
 		
 	}
 	
-	public User(String username, String email, String password, boolean isActive, List<Role> roles) {
+	public User(String username, String email, String password, List<Role> roles) {
 		super();
 		this.username = username;
 		this.email = email;
 		this.password = password;
-		this.isActive = isActive;
+		this.isActive = true;
 		this.roles = roles;
 	}
 

@@ -11,25 +11,20 @@
        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"/>
        <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet"/>
        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
-       <title>mójPrzepiśnik</title>
+       <title th:text="#{register.registerSuccess1}">Registration Success</title>
 </head>
 <body>
 
 	<div th:replace="fragments/header::header"></div>
 	<div th:replace="fragments/navbar::navbar"></div>
         
-		<div class="myColumn" style="background-color: #f1f1f1;">
-            <div class="myForm">
-                <form action="#" th:action="@{/login}" method="post">
-                        <h3 class="form-signin-heading" th:text="#{login.login}">Login</h3>
-                        <input name="username" type="text" class="form-control" style="margin-bottom: 5px;" th:placeholder="#{login.username}"/>
-                        <input name="password" type="password" class="form-control" style="margin-bottom: 5px;" th:placeholder="#{login.password}"/>
-                        <button class="btn btn-md btn-block" style="margin-bottom: 10px; background-color: #1abc9c; color:white" type="submit" value="Login" th:text="#{login.login}">Login</button>
-                        <a th:href="@{/register}" style="color:grey;" th:text="#{login.register}">Register</a>
-                </form>
-            </div>    
-        </div>
-		
+        <div class="myColumn" style="background-color: #f1f1f1;">
+           <div class="myForm">
+                   <h3 class="form-signin-heading" th:text="#{register.registerSuccess2}">Thanks for registration</h3>
+           			<a href="#" th:href="@{/}" th:text="#{register.gohome}">Go to homepage</a> 
+           </div>    
+      	 </div>	
+
         
         <div th:replace="fragments/footer::footer"></div>
         
