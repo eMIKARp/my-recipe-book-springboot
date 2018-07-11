@@ -24,7 +24,7 @@
 		    </div>
 		    <div class="mySideNav" id="mySideNav">
 		        <a th:href="@{/}" th:text="#{sidebar.showall}">Show all</a> 
-		        <a th:if="${categories!=null}" th:each="category:${categories}" th:href="@{/category?${category}}" th:text="${category}"></a>
+		        <a th:if="${categories!=null}" th:each="category:${categories}" th:href="@{'/category?' + ${category.cName}}" th:text="${category.cName}"></a>
 		    </div>
 		</div>
 
