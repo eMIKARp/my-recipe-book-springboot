@@ -140,20 +140,23 @@ body {
     dispay:flex;
     flex-direction:column;
     min-height: 150px;
-    min-width: 250px;
+    width: 250px;
     background-color: #f1f1f1;
     padding: 10px;
-    align-self: center;
+	align-self:center;   
+    text-align:center;
 }
 
 .myAddForm{
     dispay:flex;
     flex-direction:column;
     min-height: 150px;
-    min-width: 550px;
+    min-width: 350px;
+    max-width: 750px;
     background-color: #f1f1f1;
     padding: 10px;
     align-self: center;
+    text-align:center;
 }
 
 .myMain{
@@ -201,11 +204,22 @@ body {
     
 }
 
+.myMessage {
+    display:flex;
+    flex-direction: column;
+    height:inherit;
+    align-items:stretch;
+    justify-content: center;
+    text-align:center;
+    
+}
 
 .myColumn {
     display:flex;
     flex-direction: column;
     height:inherit;
+    align-items:center;
+    justify-content: center;
 }
 
 .myRow {

@@ -4,10 +4,64 @@
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-<meta charset="UTF-8"/>
-<title>Insert title here</title>
+	   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+       <link th:href="@{css/bootstrap.min.css}" type="text/css" rel="stylesheet"/>
+       <link th:href="@{css/styles.css}" type="text/css" rel="stylesheet"/>
+       <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"/>
+       <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet"/>
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+       <title>mójPrzepiśnik</title>
 </head>
 <body>
+
+	<div th:replace="fragments/header::header"></div>
+	<div th:replace="fragments/navbar::navbar"></div>
+        
+        <div class="myColumn" style="background-color: #f1f1f1;">
+           <div class="myAddForm">
+               <form action="add" th:action="@{/add}" method="post">
+                    <h3 class="form-signin-heading" th:text="#{newrecipe.addHeader}">Add new recipe</h3>
+                    <input th:field="${recipe.rName}" type="text" class="form-control" style="margin-bottom: 5px;" th:placeholder="#{newrecipe.name}"/>
+                    
+                    <select multiple="multiple" th:field="${recipe.rCategories}" class="form-control" style="margin-bottom: 5px;" th:placeholder="#{newrecipe.category}">
+                     	<option th:each="category:${catToChooseFrom}" th:value="${category.id}" th:text="${category.cName}"></option>
+                    </select>
+                    
+                    <input th:field="${recipe.rUrl}" type="text" class="form-control" style="margin-bottom: 5px;" th:placeholder="#{newrecipe.url}"/>
+                    <textarea rows="5" th:field="${recipe.rDescription}" class="form-control" style="margin-bottom: 5px;" th:placeholder="#{newrecipe.description}"></textarea>
+                    <button class="btn btn-md btn-block" style="margin-bottom: 10px; background-color: #1abc9c; color:white" type="submit" th:text="#{newrecipe.addLabel}">Add</button>
+               </form>
+           </div>    
+      	 </div>	
+
+        
+        <div th:replace="fragments/footer::footer"></div>
+        
+        <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+        <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+        <script th:src="@{js/bootstrap.min.js}"></script>
+ 
+        <script>
+        function showTopNav() {
+            var x = document.getElementById("myTopNav");
+            if (x.className === "myTopNav") {
+                x.className += " responsive";
+            } else {
+                x.className = "myTopNav";	
+            }
+        }
+        </script>
+        <script>
+        function showSideNav() {
+            var x = document.getElementById("mySideNav");
+            if (x.className === "mySideNav") {
+                x.className += " responsive";
+            } else {
+                x.className = "mySideNav";
+            }
+        }
+        </script>
 
 </body>
 </html>

@@ -40,15 +40,14 @@ public class Recipe{
 	private int DownVote;
 	private boolean isShared;
 	
-	@ManyToMany(cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
+	@ManyToMany
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@JoinTable(name="recipe_category",
 		joinColumns= {@JoinColumn(name="recipe_id", referencedColumnName="id_recipe")},
 		inverseJoinColumns= {@JoinColumn(name="category_id", referencedColumnName="id_category")})
 	private List<Category> rCategories = new ArrayList<>();
 	
-	@ManyToOne(fetch=FetchType.EAGER,
-		cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="user_id")
 	private User usrWhoAddedRecipe;
 	
@@ -79,6 +78,104 @@ public class Recipe{
 		this.isShared = isShared;
 		this.rCategories = rCategories;
 		this.usrWhoAddedRecipe = usrWhoAddedRecipe;
+	}
+
+	
+	
+	public Long getId() {
+		return id;
+	}
+
+	public String getrName() {
+		return rName;
+	}
+
+	public String getrDescription() {
+		return rDescription;
+	}
+
+	public String getrUrl() {
+		return rUrl;
+	}
+
+	public Timestamp getDate() {
+		return Date;
+	}
+
+	public int getUpVote() {
+		return UpVote;
+	}
+
+	public int getDownVote() {
+		return DownVote;
+	}
+
+	public boolean isShared() {
+		return isShared;
+	}
+
+	public List<Category> getrCategories() {
+		return rCategories;
+	}
+	
+	public User getUsrWhoAddedRecipe() {
+		return usrWhoAddedRecipe;
+	}
+
+	public List<Vote> getVotes() {
+		return votes;
+	}
+
+	public List<User> getUsrWhoAddedRecipeToFavourites() {
+		return usrWhoAddedRecipeToFavourites;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setrName(String rName) {
+		this.rName = rName;
+	}
+
+	public void setrDescription(String rDescription) {
+		this.rDescription = rDescription;
+	}
+
+	public void setrUrl(String rUrl) {
+		this.rUrl = rUrl;
+	}
+
+	public void setDate(Timestamp date) {
+		Date = date;
+	}
+
+	public void setUpVote(int upVote) {
+		UpVote = upVote;
+	}
+
+	public void setDownVote(int downVote) {
+		DownVote = downVote;
+	}
+
+	public void setShared(boolean isShared) {
+		this.isShared = isShared;
+	}
+
+	public void setrCategories(List<Category> rCategories) {
+		this.rCategories = rCategories;
+	}
+
+	public void setUsrWhoAddedRecipe(User usrWhoAddedRecipe) {
+		this.usrWhoAddedRecipe = usrWhoAddedRecipe;
+	}
+
+	public void setVotes(List<Vote> votes) {
+		this.votes = votes;
+	}
+
+	public void setUsrWhoAddedRecipeToFavourites(List<User> usrWhoAddedRecipeToFavourites) {
+		this.usrWhoAddedRecipeToFavourites = usrWhoAddedRecipeToFavourites;
 	}
 
 	@Override

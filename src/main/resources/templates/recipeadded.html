@@ -19,8 +19,8 @@
 	<div th:replace="fragments/navbar::navbar"></div>
         
         <div class="myMessage" style="background-color: #f1f1f1;">
-            <h3 class="form-signin-heading" th:text="#{register.registerSuccess2}">Thanks for registration</h3>
-       		<a href="#" th:href="@{/login}" th:text="#{register.gohome}">Login to move forward</a> 
+            <h3 class="form-signin-heading" th:text="#{newrecipe.addsuccess}">Recipe added successfully</h3>
+       		<a href="#" th:href="@{/}" th:text="#{newrecipe.gohome}">Go back to homepage</a> 
       	 </div>	
         
         <div th:replace="fragments/footer::footer"></div>

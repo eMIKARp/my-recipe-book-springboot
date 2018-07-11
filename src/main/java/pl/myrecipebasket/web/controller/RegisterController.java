@@ -42,7 +42,7 @@ public class RegisterController {
 	public String addUser(@ModelAttribute @Valid User user, BindingResult bindResult) {
 
 		if(bindResult.hasErrors())
-			return "redirect:register";
+			return "register";
 		else {
 			userService.addWithDefaultRole(user);
 			return "redirect:registerSuccess";

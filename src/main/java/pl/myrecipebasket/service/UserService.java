@@ -25,9 +25,14 @@ public class UserService {
 			this.roleRepository=roleRepository;
 		}
 
+		public User findByUsername(String username) {
+			User wantedUser = userRepository.findByUsername(username);
+			return wantedUser;
+		}
 		public void addWithDefaultRole(User user) {
 			Role defaultRole = roleRepository.findByRole(DEFAULT_ROLE);
 			user.getRoles().add(defaultRole);
+			user.setActive(true);
 			userRepository.save(user);
 		}
 }
