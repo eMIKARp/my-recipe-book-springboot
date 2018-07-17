@@ -34,18 +34,20 @@ public class User{
 	@NotEmpty
 	private String password;
 	private boolean isActive;
-	@ManyToMany
+	
+	@ManyToMany (cascade= {CascadeType.PERSIST})
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@JoinTable(name="user_role",
 	joinColumns= {@JoinColumn(name="user_id", referencedColumnName="id_user")},
 	inverseJoinColumns= {@JoinColumn(name="role_id", referencedColumnName="id_role")})
 	private List<Role> roles = new ArrayList<>();
+	
 	@OneToMany(mappedBy="usrWhoAddedRecipe",
-		cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
+		cascade= {CascadeType.PERSIST})
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Recipe> ownRecipes = new ArrayList<>();
 	
-	@ManyToMany(cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
+	@ManyToMany(cascade= {CascadeType.PERSIST})
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@JoinTable(name="user_favourite_recipes",
 	joinColumns= {@JoinColumn(name="user_id", referencedColumnName="id_user")},
@@ -53,7 +55,8 @@ public class User{
 	private List<Recipe> favRecipes = new ArrayList<>();
 	
 	@OneToMany(mappedBy="user",
-		cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
+		cascade= {CascadeType.PERSIST, CascadeType.REMOVE},
+		orphanRemoval=true)
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Vote> votes = new ArrayList<>();
 	
@@ -101,8 +104,34 @@ public class User{
 		return roles;
 	}
 
+	public void addVote(Vote vote) {
+		vote.setUser(this);
+		getVotes().add(vote);
+	}
+	
+	public void removeVote(Vote vote) {
+		getVotes().remove(vote);
+	}
+	
+	public void addOwnRecipe(Recipe recipe) {
+		recipe.setUsrWhoAddedRecipe(this);
+		getOwnRecipes().add(recipe);
+	}
+	
+	public void removeOwnRecipe(Recipe recipe) {
+		getOwnRecipes().remove(recipe);
+	}
+	
 	public List<Recipe> getOwnRecipes() {
 		return ownRecipes;
+	}
+	
+	public void addFavRecipe(Recipe recipe) {
+		getFavRecipes().add(recipe);
+	}
+	
+	public void removeFavRecipe(Recipe recipe) {
+		getFavRecipes().remove(recipe);
 	}
 
 	public List<Recipe> getFavRecipes() {
@@ -219,6 +248,6 @@ public class User{
 		return true;
 	}
 
-	
+
 	
 }

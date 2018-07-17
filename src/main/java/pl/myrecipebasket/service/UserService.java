@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import pl.myrecipebasket.model.Role;
 import pl.myrecipebasket.model.User;
+import pl.myrecipebasket.repository.RecipeRepository;
 import pl.myrecipebasket.repository.RoleRepository;
 import pl.myrecipebasket.repository.UserRepository;
 
@@ -14,6 +15,7 @@ public class UserService {
 		private static final String DEFAULT_ROLE="ROLE_USER";
 		private UserRepository userRepository;
 		private RoleRepository roleRepository;
+		private RecipeRepository recipeRepository;
 		
 		@Autowired
 		public void setUserRepository(UserRepository userRepository) {
@@ -24,6 +26,11 @@ public class UserService {
 		public void setRoleRepository(RoleRepository roleRepository) {
 			this.roleRepository=roleRepository;
 		}
+		
+		@Autowired
+		public void setRecipeRepository(RecipeRepository recipeRepository) {
+			this.recipeRepository=recipeRepository;
+		}
 
 		public User findByUsername(String username) {
 			User wantedUser = userRepository.findByUsername(username);
@@ -33,6 +40,10 @@ public class UserService {
 			Role defaultRole = roleRepository.findByRole(DEFAULT_ROLE);
 			user.getRoles().add(defaultRole);
 			user.setActive(true);
+			userRepository.save(user);
+		}
+		
+		public void saveUser(User user) {
 			userRepository.save(user);
 		}
 }

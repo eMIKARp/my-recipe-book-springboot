@@ -1,4 +1,4 @@
-package pl.myrecipebasket.model;
+	package pl.myrecipebasket.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -40,7 +40,7 @@ public class Recipe{
 	private int DownVote;
 	private boolean isShared;
 	
-	@ManyToMany
+	@ManyToMany (cascade= {CascadeType.MERGE})
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@JoinTable(name="recipe_category",
 		joinColumns= {@JoinColumn(name="recipe_id", referencedColumnName="id_recipe")},
@@ -52,12 +52,13 @@ public class Recipe{
 	private User usrWhoAddedRecipe;
 	
 	@OneToMany(mappedBy="recipe",
-		cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
+		cascade= {CascadeType.PERSIST, CascadeType.REMOVE},
+		orphanRemoval=true)
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Vote> votes = new ArrayList<>();
 	
 	@ManyToMany(mappedBy="favRecipes",
-		cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
+		cascade= {CascadeType.PERSIST})
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<User> usrWhoAddedRecipeToFavourites = new ArrayList<>();
 
@@ -80,7 +81,10 @@ public class Recipe{
 		this.usrWhoAddedRecipe = usrWhoAddedRecipe;
 	}
 
-	
+	public void addVote(Vote vote) {
+		vote.setRecipe(this);
+		getVotes().add(vote);
+	}
 	
 	public Long getId() {
 		return id;
@@ -190,19 +194,7 @@ public class Recipe{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((Date == null) ? 0 : Date.hashCode());
-		result = prime * result + DownVote;
-		result = prime * result + UpVote;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + (isShared ? 1231 : 1237);
-		result = prime * result + ((rCategories == null) ? 0 : rCategories.hashCode());
-		result = prime * result + ((rDescription == null) ? 0 : rDescription.hashCode());
-		result = prime * result + ((rName == null) ? 0 : rName.hashCode());
-		result = prime * result + ((rUrl == null) ? 0 : rUrl.hashCode());
-		result = prime * result + ((usrWhoAddedRecipe == null) ? 0 : usrWhoAddedRecipe.hashCode());
-		result = prime * result
-				+ ((usrWhoAddedRecipeToFavourites == null) ? 0 : usrWhoAddedRecipeToFavourites.hashCode());
-		result = prime * result + ((votes == null) ? 0 : votes.hashCode());
 		return result;
 	}
 
@@ -215,61 +207,14 @@ public class Recipe{
 		if (getClass() != obj.getClass())
 			return false;
 		Recipe other = (Recipe) obj;
-		if (Date == null) {
-			if (other.Date != null)
-				return false;
-		} else if (!Date.equals(other.Date))
-			return false;
-		if (DownVote != other.DownVote)
-			return false;
-		if (UpVote != other.UpVote)
-			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (isShared != other.isShared)
-			return false;
-		if (rCategories == null) {
-			if (other.rCategories != null)
-				return false;
-		} else if (!rCategories.equals(other.rCategories))
-			return false;
-		if (rDescription == null) {
-			if (other.rDescription != null)
-				return false;
-		} else if (!rDescription.equals(other.rDescription))
-			return false;
-		if (rName == null) {
-			if (other.rName != null)
-				return false;
-		} else if (!rName.equals(other.rName))
-			return false;
-		if (rUrl == null) {
-			if (other.rUrl != null)
-				return false;
-		} else if (!rUrl.equals(other.rUrl))
-			return false;
-		if (usrWhoAddedRecipe == null) {
-			if (other.usrWhoAddedRecipe != null)
-				return false;
-		} else if (!usrWhoAddedRecipe.equals(other.usrWhoAddedRecipe))
-			return false;
-		if (usrWhoAddedRecipeToFavourites == null) {
-			if (other.usrWhoAddedRecipeToFavourites != null)
-				return false;
-		} else if (!usrWhoAddedRecipeToFavourites.equals(other.usrWhoAddedRecipeToFavourites))
-			return false;
-		if (votes == null) {
-			if (other.votes != null)
-				return false;
-		} else if (!votes.equals(other.votes))
-			return false;
 		return true;
 	}
-	
-	
-	
+
+
 	
 }	

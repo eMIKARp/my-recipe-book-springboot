@@ -21,12 +21,10 @@ public class Vote{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	@ManyToOne (fetch=FetchType.EAGER,
-		cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
+	@ManyToOne
 	@JoinColumn(name="user_id")
 	private User user;
-	@ManyToOne(fetch=FetchType.EAGER,
-		cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
+	@ManyToOne
 	@JoinColumn(name="recipe_id")
 	private Recipe recipe;
 	private Timestamp date;

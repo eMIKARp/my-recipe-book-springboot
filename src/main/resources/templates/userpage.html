@@ -4,10 +4,71 @@
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-<meta charset="UTF-8"/>
-<title>Insert title here</title>
+	   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+       <link th:href="@{css/styles.css}" type="text/css" rel="stylesheet"/>
+       <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"/>
+       <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet"/>
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+       <title>mójPrzepiśnik</title>
 </head>
 <body>
+
+	<div th:replace="fragments/header::header"></div>
+	<div th:replace="fragments/navbar::navbar"></div>
+		
+        
+        <div class="myRow">
+            <div th:replace="fragments/sidebar::sidebar"></div>
+            <div class="myMain">
+                  <div th:if="${recipes!=null}" th:each="recipe:${recipes}" class="myRow">
+                    <div class="myRecipe">
+                        <h2 style="margin-top:6px;" th:text="${recipe.rName}"></h2>
+                      <div class="myRow">  
+                        <p style="color:grey;" th:text="#{recipe.categories}">Categories:</p>    
+                        <p style="color:grey;" th:each="category:${recipe.rCategories}" th:text="'&nbsp;'+${category.cName}"></p>    
+                      </div>
+                      <div style="padding: 10px;">
+                          <p th:text="${recipe.rDescription}"></p>
+                      </div>
+                      	<p style="color:grey;" th:text="#{recipe.addedby} + ' ' + ${recipe.usrWhoAddedRecipe.username} + ', ' + #{recipe.addedwhen} + ' ' + ${#dates.format(recipe.Date,'dd-MMM-yyyy')}">Added by User, Date: dd-MMM-yyyy</p>
+                      <div class="myRow">
+                          <a th:href="@{${recipe.rUrl}}" th:target="_blank" th:text="#{recipe.gotorecipe}" class="btn btn-primary btn-primary" style="margin: 5px;padding-left: 20px; padding-right: 20px;"></a>
+                          <a th:href="@{'/share?recipeId='+${recipe.id}}" th:text="#{myrecipebasket.shareRecipe}" class="btn btn-success" style="margin: 5px;"></a>
+                          <a th:href="@{/}" th:text="#{myrecipebasket.editRecipe}" class="btn btn-warning" style="margin: 5px;"></a>
+                          <a th:href="@{'/remove?recipeId='+${recipe.id}}" th:text="#{myrecipebasket.removeFromMyRecipeBasket}" class="btn btn-danger" style="margin: 5px;"></a>
+                      </div>    
+                  </div>  
+                  </div>
+            </div>
+        </div>
+        
+        <div th:replace="fragments/footer::footer"></div>
+        
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+ 
+        <script>
+        function showTopNav() {
+            var x = document.getElementById("myTopNav");
+            if (x.className === "myTopNav") {
+                x.className += " responsive";
+            } else {
+                x.className = "myTopNav";	
+            }
+        }
+        </script>
+        <script>
+        function showSideNav() {
+            var x = document.getElementById("mySideNav");
+            if (x.className === "mySideNav") {
+                x.className += " responsive";
+            } else {
+                x.className = "mySideNav";
+            }
+        }
+        </script>
 
 </body>
 </html>

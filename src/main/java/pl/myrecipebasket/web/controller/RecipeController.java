@@ -2,6 +2,7 @@ package pl.myrecipebasket.web.controller;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -12,13 +13,17 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import pl.myrecipebasket.model.Category;
 import pl.myrecipebasket.model.Recipe;
 import pl.myrecipebasket.model.User;
+import pl.myrecipebasket.repository.RecipeRepository;
 import pl.myrecipebasket.service.CategoryService;
 import pl.myrecipebasket.service.RecipeService;
 import pl.myrecipebasket.service.UserService;
@@ -49,7 +54,7 @@ public class RecipeController {
 	}
 	
 	@Autowired
-	public void setREcipeService(RecipeService recipeService) {
+	public void setRecipeService(RecipeService recipeService) {
 		this.recipeService = recipeService;
 	}
 	
@@ -75,13 +80,70 @@ public class RecipeController {
 			recipeToAdd.setUsrWhoAddedRecipe(usrWhoAddedRecipe);
 			recipeToAdd.setrCategories(recipe.getrCategories());
 			
+			List<Recipe> ownRecipes = usrWhoAddedRecipe.getOwnRecipes();
+			List<Recipe> favRecipes = usrWhoAddedRecipe.getFavRecipes();
+			ownRecipes.add(recipeToAdd);
+			favRecipes.add(recipeToAdd);
+			usrWhoAddedRecipe.setOwnRecipes(ownRecipes);
+			usrWhoAddedRecipe.setFavRecipes(favRecipes);
+			
 		recipeService.saveRecipe(recipeToAdd);
+		userService.saveUser(usrWhoAddedRecipe);
 		return "redirect:recipeadded";
 	}
 	
 	@GetMapping("/recipeadded")
 	public String addRecipeSuccess(Model model) {
 		return "recipeadded";
+	}
+	
+	@GetMapping("/share")
+	public String shareRecipe(@RequestParam long recipeId, Model model) {
+		Recipe recipe = recipeService.getRecipeById(recipeId);
+		if (recipe.isShared()!=true) {
+			recipe.setShared(true);
+			recipeService.saveRecipe(recipe);
+		}
+		return "redirect:recipeshared";
+	}
+	
+	@RequestMapping("/favourite")
+	public String addRecipeToFav(@RequestParam long recipeId, Model model) {
+		Recipe recipe = recipeService.getRecipeById(recipeId);
+		User usrWhoAddedRecipeToFav = userService.findByUsername(getLoggedUserUsername());
+		
+		if (usrWhoAddedRecipeToFav!=null&&
+				usrWhoAddedRecipeToFav.getId()!=recipe.getUsrWhoAddedRecipe().getId()&&
+				!usrWhoAddedRecipeToFav.getFavRecipes().contains(recipe)){
+					usrWhoAddedRecipeToFav.getFavRecipes().add(recipe);
+					userService.saveUser(usrWhoAddedRecipeToFav);
+				}
+				
+		return "redirect:homepage";
+	}
+	
+	@GetMapping("/remove")
+	public String removeRecipe(@RequestParam long recipeId, Model model) {
+		
+		Recipe recipe = recipeService.getRecipeById(recipeId);
+		User loggedUser = userService.findByUsername(getLoggedUserUsername());
+
+		if (loggedUser!=null) {
+			loggedUser.getFavRecipes().remove(recipe);
+			userService.saveUser(loggedUser);
+		}
+	   	
+		return "redirect:reciperemoved";
+	}
+	
+	@GetMapping("/reciperemoved")
+	public String recipeRemoved() {
+		return "reciperemoved";
+	}
+	
+	@GetMapping("/recipeshared")
+	public String recipeShared() {
+		return "recipeshared";
 	}
 	
 }

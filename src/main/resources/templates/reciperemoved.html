@@ -1,4 +1,4 @@
-usrWhoAddedRecipeToFav!=<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns="http://www.thymeleaf.org/extras/dialect" 
 	xmlns:th="http://www.thymeleaf.org" 
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
@@ -6,12 +6,12 @@ usrWhoAddedRecipeToFav!=<!DOCTYPE html>
 <head>
 	   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
        <link th:href="@{css/styles.css}" type="text/css" rel="stylesheet"/>
+       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"/>
        <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet"/>
        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
-       <title th:text="#{register.registerSuccess1}">Registration Success</title>
+       <title th:text="#{reciperemove.removesuccesstitle}">Recipe removed</title>
 </head>
 <body>
 
@@ -19,8 +19,8 @@ usrWhoAddedRecipeToFav!=<!DOCTYPE html>
 	<div th:replace="fragments/navbar::navbar"></div>
         
         <div class="myMessage" style="background-color: #f1f1f1;">
-            <h3 class="form-signin-heading" th:text="#{register.registerSuccess2}">Thanks for registration</h3>
-       		<a href="#" th:href="@{/login}" th:text="#{register.gohome}">Login to move forward</a> 
+            <h3 class="form-signin-heading" th:text="#{reciperemove.removesuccess}">Recipe removed successfully</h3>
+       		<a href="#" th:href="@{/userpage}" th:text="#{reciperemove.gohome}">Go back to your recipe page</a> 
       	 </div>	
         
         <div th:replace="fragments/footer::footer"></div>

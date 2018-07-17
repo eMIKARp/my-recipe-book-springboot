@@ -30,8 +30,9 @@ public class Category{
 	private CategoryType cType;
 	@Column(name="cat_description")
 	private String cDescription;
+	
 	@ManyToMany(mappedBy="rCategories",
-			cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
+			cascade= {CascadeType.MERGE})
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Recipe> cRecipes = new ArrayList<>();
 	
