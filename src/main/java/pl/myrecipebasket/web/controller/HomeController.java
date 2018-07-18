@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import pl.myrecipebasket.model.Category;
 import pl.myrecipebasket.model.Recipe;
@@ -49,16 +50,16 @@ public class HomeController {
 	}
 	
 	@GetMapping("/")
-	public String home(Model model) {
+	public String home(@RequestParam(value="cName",required=false,defaultValue="all") String cName, Model model) {
 		model.addAttribute("categories", categoryService.getCategories());
-		model.addAttribute("recipes", recipeService.getAllSharedRecipes());
+		model.addAttribute("recipes", recipeService.getAllSharedRecipesWithinCategory(cName));
 		return "homepage";
 	}
 	
 	@GetMapping("/homepage")
-	public String homepage(Model model) {
+	public String homepage(@RequestParam(value="cName",required=false,defaultValue="all") String cName,Model model) {
 		model.addAttribute("categories", categoryService.getCategories());
-		model.addAttribute("recipes", recipeService.getAllSharedRecipes());
+		model.addAttribute("recipes", recipeService.getAllSharedRecipesWithinCategory(cName));
 		return "homepage";
 	}
 	

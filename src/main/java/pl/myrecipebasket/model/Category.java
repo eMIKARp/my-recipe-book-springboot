@@ -97,11 +97,7 @@ public class Category{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((cDescription == null) ? 0 : cDescription.hashCode());
 		result = prime * result + ((cName == null) ? 0 : cName.hashCode());
-		result = prime * result + ((cRecipes == null) ? 0 : cRecipes.hashCode());
-		result = prime * result + ((cType == null) ? 0 : cType.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
 
@@ -114,31 +110,14 @@ public class Category{
 		if (getClass() != obj.getClass())
 			return false;
 		Category other = (Category) obj;
-		if (cDescription == null) {
-			if (other.cDescription != null)
-				return false;
-		} else if (!cDescription.equals(other.cDescription))
-			return false;
 		if (cName == null) {
 			if (other.cName != null)
 				return false;
 		} else if (!cName.equals(other.cName))
 			return false;
-		if (cRecipes == null) {
-			if (other.cRecipes != null)
-				return false;
-		} else if (!cRecipes.equals(other.cRecipes))
-			return false;
-		if (cType != other.cType)
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
 		return true;
 	}
-	
+
 	
 	
 		

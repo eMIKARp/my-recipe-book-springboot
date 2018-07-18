@@ -1,5 +1,6 @@
 package pl.myrecipebasket.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,24 @@ public class RecipeService {
 		
 		public List<Recipe> getAllSharedRecipes(){
 			return recipeRepository.findAllByIsShared(true);
+		}
+
+		public List<Recipe> getAllSharedRecipesWithinCategory(String cName){
+				
+				List<Recipe> sharedRecipes = recipeRepository.findAllByIsShared(true);
+			    List<Recipe> recipesToShow = new ArrayList<>();
+			    if (!cName.equals("all")) {
+					Category category = categoryRepository.findBycName(cName);
+				    for (Recipe recipe: sharedRecipes) {
+				    	if (recipe.getrCategories().contains(category)) {
+				    		recipesToShow.add(recipe);
+				    	}
+				    }	
+				} else {
+			    	recipesToShow.addAll(sharedRecipes);
+			    }
+				
+				return recipesToShow;
 		}
 		
 		public void removeRecipe(Recipe recipe) {
