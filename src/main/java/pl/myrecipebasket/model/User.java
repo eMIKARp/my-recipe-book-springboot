@@ -54,9 +54,7 @@ public class User{
 	inverseJoinColumns= {@JoinColumn(name="recipe_id", referencedColumnName="id_recipe")})
 	private List<Recipe> favRecipes = new ArrayList<>();
 	
-	@OneToMany(mappedBy="user",
-		cascade= {CascadeType.PERSIST, CascadeType.REMOVE},
-		orphanRemoval=true)
+	@OneToMany(mappedBy="user")
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Vote> votes = new ArrayList<>();
 	

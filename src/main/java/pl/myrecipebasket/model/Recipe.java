@@ -51,9 +51,7 @@ public class Recipe{
 	@JoinColumn(name="user_id")
 	private User usrWhoAddedRecipe;
 	
-	@OneToMany(mappedBy="recipe",
-		cascade= {CascadeType.PERSIST, CascadeType.REMOVE},
-		orphanRemoval=true)
+	@OneToMany(mappedBy="recipe")
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Vote> votes = new ArrayList<>();
 	

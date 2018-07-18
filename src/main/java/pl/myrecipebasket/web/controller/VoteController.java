@@ -8,6 +8,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import pl.myrecipebasket.model.Recipe;
+import pl.myrecipebasket.model.User;
+import pl.myrecipebasket.model.Vote;
+import pl.myrecipebasket.model.VoteType;
 import pl.myrecipebasket.service.RecipeService;
 import pl.myrecipebasket.service.UserService;
 import pl.myrecipebasket.service.VoteService;
@@ -44,7 +48,29 @@ public class VoteController {
 	}
 	
 	@GetMapping("/vote")
-	public String addVote(@RequestParam long recipeId, @RequestParam String voteType, Model model) {
+	public String addVote(@RequestParam long recipeId, 
+			@RequestParam String voteType, 
+			Model model) {
+		
+		if (getLoggedUserUsername()!=null) {
+			Recipe recipe = recipeService.getRecipeById(recipeId);
+			User user = userService.findByUsername(getLoggedUserUsername());
+			Vote vote = voteService.getVoteByUserAndRecipe(user, recipe);
+			System.out.println(vote);
+			if (vote!=null) {
+				if (vote.getVoteType()!=VoteType.valueOf(voteType)) {
+					vote.setVoteType(VoteType.valueOf(voteType));
+					voteService.updateVote(vote, recipe, user);
+				} else {
+					System.out.println("Nie możesz oddać dwóch identycznych głosów na ten sam przepis");
+				}
+			} else {
+				voteService.addVote(voteType, recipe, user);
+			}
+				
+		} else {
+			System.out.println("Musisz być zalogowany, żeby zagłosować");
+		}
 		
 		return "redirect:homepage";
 	}
