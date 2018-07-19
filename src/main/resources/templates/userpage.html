@@ -36,7 +36,7 @@
                       <div class="myRow">
                           <a th:href="@{${recipe.rUrl}}" th:target="_blank" th:text="#{recipe.gotorecipe}" class="btn btn-primary btn-primary" style="margin: 5px;padding-left: 20px; padding-right: 20px;"></a>
                           <a th:href="@{'/share?recipeId='+${recipe.id}}" th:text="#{myrecipebasket.shareRecipe}" class="btn btn-success" style="margin: 5px;"></a>
-                          <a th:href="@{/}" th:text="#{myrecipebasket.editRecipe}" class="btn btn-warning" style="margin: 5px;"></a>
+                          <a th:href="@{'/modify?recipeId='+${recipe.id}}" th:text="#{myrecipebasket.editRecipe}" class="btn btn-warning" style="margin: 5px;"></a>
                           <a th:href="@{'/remove?recipeId='+${recipe.id}}" th:text="#{myrecipebasket.removeFromMyRecipeBasket}" class="btn btn-danger" style="margin: 5px;"></a>
                       </div>    
                   </div>  

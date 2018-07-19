@@ -146,4 +146,40 @@ public class RecipeController {
 		return "recipeshared";
 	}
 	
+	@GetMapping("/modifyforbidden")
+	public String forbidModify() {
+		return "modifyforbidden";
+	}
+	
+	
+	
+	@GetMapping("/modify")
+	public String modifyRecipe(@RequestParam long recipeId, Model model) {
+		Recipe recipe = recipeService.getRecipeById(recipeId);
+		if (recipe.getUsrWhoAddedRecipe().getUsername().equals(getLoggedUserUsername())) {
+
+			model.addAttribute("recipe", recipe);
+			model.addAttribute("catToChooseFrom", categoryService.getCategories());
+			
+			return "modify";
+			
+		} else {
+			return "modifyforbidden";
+		}
+		
+	}
+	
+	@PostMapping("/modify")
+	public String modifyRecipe(@ModelAttribute Recipe recipe, @RequestParam long recipeId, Model model) {
+		
+		Recipe recipeToModify = recipeService.getRecipeById(recipeId);
+		recipeToModify.setDate(new Timestamp(new Date().getTime()));
+		recipeToModify.setrName(recipe.getrName());
+		recipeToModify.setrUrl(recipe.getrUrl());
+		recipeToModify.setrDescription(recipe.getrDescription());
+		recipeToModify.setrCategories(recipe.getrCategories());
+		recipeService.saveRecipe(recipeToModify);
+		return "redirect:userpage";
+	}
+	
 }
