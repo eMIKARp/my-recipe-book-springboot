@@ -23,8 +23,8 @@
 		        </a>
 		    </div>
 		    <div class="mySideNav" id="mySideNav">
-		        <a th:href="@{/?cName=all}" th:text="#{sidebar.showall}">Show all</a> 
-		        <a th:if="${categories!=null}" th:each="category:${categories}" th:href="@{'/?cName=' + ${category.cName}}" th:text="${category.cName}"></a>
+		        <a th:href="@{?cName=all}" th:text="#{sidebar.showall}">Show all</a> 
+		        <a th:if="${categories!=null}" th:each="category:${categories}" th:href="@{'?cName=' + ${category.cName}}" th:text="${category.cName}"></a>
 		    </div>
 		</div>
 

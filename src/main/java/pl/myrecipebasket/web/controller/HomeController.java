@@ -64,11 +64,10 @@ public class HomeController {
 	}
 	
 	@GetMapping("/userpage")
-	public String userpage(Model model) {
+	public String userpage(@RequestParam(value="cName",required=false,defaultValue="all") String cName,Model model) {
 		User loggedUser = userService.findByUsername(getLoggedUserUsername());
-		List<Recipe> recipesToShow = loggedUser.getFavRecipes();
 		model.addAttribute("categories", categoryService.getCategories());
-		model.addAttribute("recipes", recipesToShow);
+		model.addAttribute("recipes", recipeService.getAllUsersRecipesWhithinCategory(cName, loggedUser));
 		return "userpage";
 	}
 	

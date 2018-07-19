@@ -27,7 +27,6 @@
                         <a th:href="@{'/vote?recipeId='+${recipe.id}+'&amp;voteType=VOTE_UP'}" class="btn btn-block btn-success" style="background-color: #1abc9c;"><span class="glyphicon glyphicon-thumbs-up"></span></a>
                         <div class="well-sm well" style="text-align: center; margin: 0;">
                            <p th:text="${recipe.upVote - recipe.downVote}"></p>
-                          
                         </div>
                         <a th:href="@{'/vote?recipeId='+${recipe.id}+'&amp;voteType=VOTE_DOWN'}" class="btn btn-block btn-danger"><span class="glyphicon glyphicon-thumbs-down"></span></a>
                     </div>
