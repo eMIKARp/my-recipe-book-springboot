@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org/extras/dialect" 
+	xmlns:th="http://www.thymeleaf.org" 
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+	   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+       <link th:href="@{css/styles.css}" type="text/css" rel="stylesheet"/>
+       <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"/>
+       <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet"/>
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+       <title>Dodaj komentarz</title>
+</head>
+<body>
+	
+	<div th:replace="fragments/header::header"></div>
+	<div th:replace="fragments/navbar::navbar"></div>
+        
+        <div class="myColumn" style="background-color: #f1f1f1;">
+           <div class="myAddForm">
+           
+               <form action="comment" th:action="@{'/comment?recipeId='+${recipeId}}" method="post" enctype="multipart/form-data">
+                    <h3 class="form-signin-heading" th:text="#{recipe.addComment}">Add comment to recipe</h3>
+                    <input th:field="${comment.title}" type="text" class="form-control" style="margin-bottom: 5px;" th:placeholder="#{recipe.comentTitle}"/>
+                    <textarea rows="5" th:field="${comment.contents}" class="form-control" style="margin-bottom: 5px;" th:placeholder="#{recipe.commentContents}"></textarea>
+                   	<input type="file" name="files" accept=".png,.jpg,.jpeg" class="form-control" style="margin-bottom: 5px; height:auto;"/>
+                    <button class="btn btn-md btn-block" style="margin-bottom: 10px; background-color:#66CDAA; color:white" type="submit" value="submit" th:text="#{newrecipe.addLabel}">Add</button>
+               </form>
+            </div>    
+      	 </div>	
+
+        
+        <div th:replace="fragments/footer::footer"></div>
+        
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        
+        <script>
+        function showTopNav() {
+            var x = document.getElementById("myTopNav");
+            if (x.className === "myTopNav") {
+                x.className += " responsive";
+            } else {
+                x.className = "myTopNav";	
+            }
+        }
+        </script>
+        <script>
+        function showSideNav() {
+            var x = document.getElementById("mySideNav");
+            if (x.className === "mySideNav") {
+                x.className += " responsive";
+            } else {
+                x.className = "mySideNav";
+            }
+        }
+        </script>
+
+</body>
+</html>

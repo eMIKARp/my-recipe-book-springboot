@@ -21,10 +21,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http
 		.authorizeRequests()
 			.antMatchers("/").permitAll()
+			.antMatchers("/homepage").permitAll()
 			.antMatchers("/register").permitAll()
 			.antMatchers("/login").permitAll()
 			.antMatchers("/registerSuccess").permitAll()
 			.antMatchers("/loginError").permitAll()
+			.antMatchers("/comment").permitAll()
+			.antMatchers("/img/**").permitAll()
 			.anyRequest().authenticated()
 		.and()
 		.formLogin()

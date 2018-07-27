@@ -99,10 +99,10 @@ body {
 .mySideNav {
     display:flex;
     flex-direction: column;
-    align-items:stretch;
-    justify-content: center;
+    justify-content: flex-start;
     text-align: center;
     background-color: #333;
+    height:inherit;
     color: white;
 
 }
@@ -121,8 +121,6 @@ body {
             text-align: center;
             text-decoration: none;
         }
-
-
         
 .mySide{
     dispay:flex;
@@ -130,7 +128,7 @@ body {
     flex: 20%;
     height:100%;
     background-color: #f1f1f1;
-    padding: 10px;
+	margin-top:10px;
     text-align: center;
     
     
@@ -163,7 +161,6 @@ body {
     dispay:flex;
     flex-direction:column;
     flex: 80%;
-    height:100%;
     background-color: white;
     padding: 10px;
     padding-bottom: 50px;
@@ -176,8 +173,6 @@ body {
     flex: 5%;
     background-color: #f1f1f1;
     padding: 10px;
-    margin-bottom: 10px;
-    padding-bottom: 50px;
 }
 
 .myRecipe {
@@ -185,11 +180,22 @@ body {
     flex-direction:column;
     flex: 95%;
     color: black;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-bottom: 10px;
-    margin-bottom: 10px;
+    padding:10px;
+    min-height: 250px;
     background-color: #f1f1f1;
+}
+
+.myComment {
+    display: flex;
+    flex-flow:wrap;
+    flex-direction:row;
+    color: black;
+    padding:10px;
+    min-height:200px;
+    justify-content:space-between;
+    background-color: #DCDCDC;
+    margin-top: 10px;
+    
 }
 
 .myFooter {
@@ -218,8 +224,8 @@ body {
     display:flex;
     flex-direction: column;
     height:inherit;
-    align-items:center;
-    justify-content: center;
+    width:inherit;
+    
 }
 
 .myRow {

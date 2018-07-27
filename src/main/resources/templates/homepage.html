@@ -20,34 +20,67 @@
 		
         
         <div class="myRow">
+           
             <div th:replace="fragments/sidebar::sidebar"></div>
+            
             <div class="myMain">
-                  <div th:if="${recipes!=null}" th:each="recipe:${recipes}" class="myRow">
-                    <div class ="myVote">
-                        <a th:href="@{'/vote?recipeId='+${recipe.id}+'&amp;voteType=VOTE_UP'}" class="btn btn-block btn-success" style="background-color: #1abc9c;"><span class="glyphicon glyphicon-thumbs-up"></span></a>
-                        <div class="well-sm well" style="text-align: center; margin: 0;">
-                           <p th:text="${recipe.upVote - recipe.downVote}"></p>
-                        </div>
-                        <a th:href="@{'/vote?recipeId='+${recipe.id}+'&amp;voteType=VOTE_DOWN'}" class="btn btn-block btn-danger"><span class="glyphicon glyphicon-thumbs-down"></span></a>
-                    </div>
-                    <div class="myRecipe">
-                      <h2 style="margin-top:6px;" th:text="${recipe.rName}"></h2>
-                      <div class="myRow">  
-                        <p style="color:grey;" th:text="#{recipe.categories}">Categories:</p>    
-                        <p style="color:grey;" th:each="category:${recipe.rCategories}" th:text="'&nbsp;'+${category.cName}"></p>    
-                      </div>
-                      <div style="padding: 10px;">
-                          <p th:text="${recipe.rDescription}"></p>
-                      </div>
-                      <p style="color:grey;" th:text="#{recipe.addedby} + ' ' + ${recipe.usrWhoAddedRecipe.username} + ', ' + #{recipe.addedwhen} + ' ' + ${#dates.format(recipe.Date,'dd-MMM-yyyy')}">Added by User, Date: dd-MMM-yyyy</p>
-                      <div class="myRow">
-                          <a th:href="@{${recipe.rUrl}}" th:target="_blank" th:text="#{recipe.gotorecipe}" class="btn btn-primary" style="margin: 5px;padding-left: 20px; padding-right: 20px;"></a>
-                          <a th:href="@{'/favourite?recipeId='+${recipe.id}}" th:text="#{homepage.addToFav}" class="btn btn-success" style="margin: 5px;"></a>
-                          <a th:href="@{/}" th:text="#{homepage.leaveComment}" class="btn btn-warning" style="margin: 5px;"></a>
-                      </div>    
-                    </div> 
-                  </div>
-            </div>
+            
+                     <div th:if="${recipes!=null}" th:each="recipe:${recipes}" class="myColumn" style="margin-bottom: 5px;">
+		                 <div class="myRow">   
+		                      <div class ="myVote" style="height: inherit; justify-content: space-between;">
+		                         <div>
+		                        	<a th:href="@{'/vote?recipeId='+${recipe.id}+'&amp;voteType=VOTE_UP'}" class="btn btn-block btn-success" style="background-color: #1abc9c;"><span class="glyphicon glyphicon-thumbs-up"></span></a>
+		                        	<div class="well-sm well" style="text-align: center; margin: 0;">
+		                           		<p th:text="${recipe.upVote - recipe.downVote}"></p>
+		                        	</div>
+		                        	<a th:href="@{'/vote?recipeId='+${recipe.id}+'&amp;voteType=VOTE_DOWN'}" class="btn btn-block btn-danger"><span class="glyphicon glyphicon-thumbs-down"></span></a>
+		                    	 </div>
+		                    	 <div>
+		                    		<a th:href="@{'/comment?recipeId='+${recipe.id}}" class="btn btn-block btn-info" style="margin-top: 5px; margin-bottom: 5px;"><span class="glyphicon glyphicon glyphicon-pencil"></span></a>
+		                    	 </div>
+		                      </div>
+		                      <div class="myRecipe" style="height: inherit; justify-content: space-between;">
+		                         <div>
+				                      <h2 style="margin-top:6px;" th:text="${recipe.rName}"></h2>
+				                      <div class="myRow" style="flex-flow:wrap;">  
+				                        <p style="color:grey;" th:text="#{recipe.categories}+'&nbsp;'">Categories:</p>    
+				                        <p style="color:grey;" th:each="category:${recipe.rCategories}" th:text="${category.cName}+'&nbsp;'"></p>    
+				                      </div>
+				                      <div style="padding-top: 10px; padding-bottom: 10px;">
+				                          <p th:text="${recipe.rDescription}"></p>
+				                      </div>
+		                         </div>
+		                         <div>
+			                      	<p style="color:grey;" th:text="#{recipe.addedby} + ' ' + ${recipe.usrWhoAddedRecipe.username} + ', ' + #{recipe.addedwhen} + ' ' + ${#dates.format(recipe.Date,'dd-MMM-yyyy')}">Added by User, Date: dd-MMM-yyyy</p>
+			                      	<div class="myRow">
+			                          <a th:href="@{${recipe.rUrl}}" th:target="_blank" th:text="#{recipe.gotorecipe}" class="btn btn-primary" style="margin: 5px;padding-left: 20px; padding-right: 20px;"></a>
+			                          <a th:href="@{'/favourite?recipeId='+${recipe.id}}" th:text="#{homepage.addToFav}" class="btn btn-success" style="margin: 5px;"></a>
+			                          <a th:text="#{homepage.showComments}" class="btn btn-warning" style="margin: 5px;" data-toggle="collapse" th:attr="data-target='#commentarea_'+${recipe.id}" aria-expanded="false" aria-controls="collapseExample"></a>
+			                      	</div>
+		                  		 </div>		
+		                      </div>
+		                  </div>    
+		                   <div class="collapse" th:id="'commentarea_'+${recipe.id}">
+							  <div class="myComment" th:each="comment:${comments}" th:if="${comment.recipeWithComment.id}==${recipe.id}">
+						    	<div class="myColumn" style="justify-content: space-between;">
+							    	<div>
+								    	<h3 style="margin-top:6px;" th:text="${comment.title}"></h3>
+								    	<div style="padding: 10px;">
+					                       	<p th:text="${comment.contents}"></p>
+					                    </div>
+					                </div>
+							    	<div>
+							    		<p style="color:grey;" th:text="#{recipe.addedby} + ' ' + ${comment.userWhoLeftComment.username} + ', ' + #{recipe.addedwhen} + ' ' + ${#dates.format(comment.date,'dd-MMM-yyyy')}">Added by User, Date: dd-MMM-yyyy</p>
+						  			</div>
+						  		</div>
+						  		<div>
+						  			<img th:each="image:${comment.images}" th:alt="'Image: '+${image.name}" th:src="@{'img/'+${image.name}}" class="img-fluid img-thumbnail" style="max-height:200px; max-width:auto;"/>
+							  	</div>
+							  </div>
+						  </div> 
+				   </div>	  
+				   
+	           </div>
         </div>
         
         <div th:replace="fragments/footer::footer"></div>

@@ -16,8 +16,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -26,7 +24,9 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 @Entity
 @Table(name="recipe")
-public class Recipe{
+public class Recipe implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -40,7 +40,7 @@ public class Recipe{
 	private int DownVote;
 	private boolean isShared;
 	
-	@ManyToMany (cascade= {CascadeType.MERGE})
+	@ManyToMany (cascade= {CascadeType.PERSIST})
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@JoinTable(name="recipe_category",
 		joinColumns= {@JoinColumn(name="recipe_id", referencedColumnName="id_recipe")},
@@ -54,6 +54,9 @@ public class Recipe{
 	@OneToMany(mappedBy="recipe")
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Vote> votes = new ArrayList<>();
+
+	@OneToMany(mappedBy="recipeWithComment", fetch=FetchType.EAGER)
+	private List<Comment> comments = new ArrayList<>();
 	
 	@ManyToMany(mappedBy="favRecipes",
 		cascade= {CascadeType.PERSIST})
@@ -65,8 +68,11 @@ public class Recipe{
 		
 	}
 	
+	
+
 	public Recipe(String rName, String rDescription, String rUrl, Timestamp date, int upVote, int downVote,
-			boolean isShared, List<Category> rCategories, User usrWhoAddedRecipe) {
+			boolean isShared, List<Category> rCategories, User usrWhoAddedRecipe, List<Vote> votes,
+			List<Comment> comments, List<User> usrWhoAddedRecipeToFavourites) {
 		super();
 		this.rName = rName;
 		this.rDescription = rDescription;
@@ -77,11 +83,33 @@ public class Recipe{
 		this.isShared = isShared;
 		this.rCategories = rCategories;
 		this.usrWhoAddedRecipe = usrWhoAddedRecipe;
+		this.votes = votes;
+		this.comments = comments;
+		this.usrWhoAddedRecipeToFavourites = usrWhoAddedRecipeToFavourites;
 	}
 
-	public void addVote(Vote vote) {
+
+
+	public Comment addComment(Comment comment) {
+		comment.setRecipeWithComment(this);
+		getComments().add(comment);
+		
+		return comment;
+	}
+	
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
+	public Vote addVote(Vote vote) {
 		vote.setRecipe(this);
 		getVotes().add(vote);
+		
+		return vote;
 	}
 	
 	public Long getId() {
@@ -180,13 +208,14 @@ public class Recipe{
 		this.usrWhoAddedRecipeToFavourites = usrWhoAddedRecipeToFavourites;
 	}
 
+	
+
 	@Override
 	public String toString() {
-		return "Recipe [id=" + id + ", rName=" + rName + ", rDescription=" + rDescription + ", rUrl=" + rUrl + ", Date="
-				+ Date + ", #UpVote=" + UpVote + ", #DownVote=" + DownVote + ", isShared=" + isShared + ", #Categories="
-				+ rCategories.size() + ", usrWhoAddedRecipe=" + usrWhoAddedRecipe + ", #votes=" + votes.size()
-				+ ", #Likes=" + usrWhoAddedRecipeToFavourites.size() + "]";
+		return "Recipe [id=" + id + ", rName=" + rName + ", usrWhoAddedRecipe=" + usrWhoAddedRecipe + "]";
 	}
+
+
 
 	@Override
 	public int hashCode() {

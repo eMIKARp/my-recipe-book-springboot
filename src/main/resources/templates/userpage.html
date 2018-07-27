@@ -23,21 +23,25 @@
             <div th:replace="fragments/sidebar::sidebar"></div>
             <div class="myMain">
                   <div th:if="${recipes!=null}" th:each="recipe:${recipes}" class="myRow">
-                    <div class="myRecipe">
-                        <h2 style="margin-top:6px;" th:text="${recipe.rName}"></h2>
-                      <div class="myRow">  
-                        <p style="color:grey;" th:text="#{recipe.categories}">Categories:</p>    
-                        <p style="color:grey;" th:each="category:${recipe.rCategories}" th:text="'&nbsp;'+${category.cName}"></p>    
+                    <div class="myRecipe" style="justify-content: space-between;">
+                      <div>
+	                      <h2 style="margin-top:6px;" th:text="${recipe.rName}"></h2>
+	                      <div class="myRow" style="flex-flow: wrap;">  
+	                        <p style="color:grey;" th:text="#{recipe.categories}">Categories:</p>    
+	                        <p style="color:grey;" th:each="category:${recipe.rCategories}" th:text="'&nbsp;'+${category.cName}"></p>    
+	                      </div>
+	                      <div style="padding-top: 10px;">
+	                          <p th:text="${recipe.rDescription}"></p>
+	                      </div>
                       </div>
-                      <div style="padding: 10px;">
-                          <p th:text="${recipe.rDescription}"></p>
-                      </div>
-                      	<p style="color:grey;" th:text="#{recipe.addedby} + ' ' + ${recipe.usrWhoAddedRecipe.username} + ', ' + #{recipe.addedwhen} + ' ' + ${#dates.format(recipe.Date,'dd-MMM-yyyy')}">Added by User, Date: dd-MMM-yyyy</p>
-                      <div class="myRow">
-                          <a th:href="@{${recipe.rUrl}}" th:target="_blank" th:text="#{recipe.gotorecipe}" class="btn btn-primary btn-primary" style="margin: 5px;padding-left: 20px; padding-right: 20px;"></a>
-                          <a th:href="@{'/share?recipeId='+${recipe.id}}" th:text="#{myrecipebasket.shareRecipe}" class="btn btn-success" style="margin: 5px;"></a>
-                          <a th:href="@{'/modify?recipeId='+${recipe.id}}" th:text="#{myrecipebasket.editRecipe}" class="btn btn-warning" style="margin: 5px;"></a>
-                          <a th:href="@{'/remove?recipeId='+${recipe.id}}" th:text="#{myrecipebasket.removeFromMyRecipeBasket}" class="btn btn-danger" style="margin: 5px;"></a>
+                      <div>
+	                      <p style="color:grey;" th:text="#{recipe.addedby} + ' ' + ${recipe.usrWhoAddedRecipe.username} + ', ' + #{recipe.addedwhen} + ' ' + ${#dates.format(recipe.Date,'dd-MMM-yyyy')}">Added by User, Date: dd-MMM-yyyy</p>
+	                      <div class="myRow">
+	                          <a th:href="@{${recipe.rUrl}}" th:target="_blank" th:text="#{recipe.gotorecipe}" class="btn btn-primary btn-primary" style="margin: 5px;padding-left: 20px; padding-right: 20px;"></a>
+	                          <a th:href="@{'/share?recipeId='+${recipe.id}}" th:text="#{myrecipebasket.shareRecipe}" class="btn btn-success" style="margin: 5px;"></a>
+	                          <a th:href="@{'/modify?recipeId='+${recipe.id}}" th:text="#{myrecipebasket.editRecipe}" class="btn btn-warning" style="margin: 5px;"></a>
+	                          <a th:href="@{'/remove?recipeId='+${recipe.id}}" th:text="#{myrecipebasket.removeFromMyRecipeBasket}" class="btn btn-danger" style="margin: 5px;"></a>
+	                      </div>
                       </div>    
                   </div>  
                   </div>

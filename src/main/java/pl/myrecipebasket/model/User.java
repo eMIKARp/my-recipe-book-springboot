@@ -22,8 +22,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name="user")
-public class User{
-
+public class User implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_user")
@@ -57,27 +59,44 @@ public class User{
 	@OneToMany(mappedBy="user")
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Vote> votes = new ArrayList<>();
-	
+
+	@OneToMany(mappedBy="userWhoLeftComment")
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private List<Comment> comments = new ArrayList<>();
+
 	public User() {
 		
 	}
 	
-	public User(String username, String email, String password, List<Role> roles) {
+	public User(String username, String email, String password, boolean isActive, List<Role> roles,
+			List<Recipe> ownRecipes, List<Recipe> favRecipes, List<Vote> votes, List<Comment> comments) {
 		super();
 		this.username = username;
 		this.email = email;
 		this.password = password;
-		this.isActive = true;
+		this.isActive = isActive;
 		this.roles = roles;
+		this.ownRecipes = ownRecipes;
+		this.favRecipes = favRecipes;
+		this.votes = votes;
+		this.comments = comments;
 	}
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password
-				+ ", isActive=" + isActive + ", roles=" + roles + ", #ownRecipes=" + ownRecipes.size() + ", #favRecipes="
-				+ favRecipes.size() + ", #votes=" + votes.size() + "]";
+	public List<Comment> getComments() {
+		return comments;
 	}
 
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+	
+	public Comment addComment(Comment comment) {
+		comment.setUserWhoLeftComment(this);
+		getComments().add(comment);
+	
+		return comment;
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -102,9 +121,11 @@ public class User{
 		return roles;
 	}
 
-	public void addVote(Vote vote) {
+	public Vote addVote(Vote vote) {
 		vote.setUser(this);
 		getVotes().add(vote);
+	
+		return vote;
 	}
 	
 	public void removeVote(Vote vote) {
@@ -177,18 +198,15 @@ public class User{
 	}
 
 	@Override
+	public String toString() {
+		return "User [id=" + id + ", username=" + username + ", roles=" + roles + "]";
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((favRecipes == null) ? 0 : favRecipes.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + (isActive ? 1231 : 1237);
-		result = prime * result + ((ownRecipes == null) ? 0 : ownRecipes.hashCode());
-		result = prime * result + ((password == null) ? 0 : password.hashCode());
-		result = prime * result + ((roles == null) ? 0 : roles.hashCode());
-		result = prime * result + ((username == null) ? 0 : username.hashCode());
-		result = prime * result + ((votes == null) ? 0 : votes.hashCode());
 		return result;
 	}
 
@@ -201,51 +219,13 @@ public class User{
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		if (email == null) {
-			if (other.email != null)
-				return false;
-		} else if (!email.equals(other.email))
-			return false;
-		if (favRecipes == null) {
-			if (other.favRecipes != null)
-				return false;
-		} else if (!favRecipes.equals(other.favRecipes))
-			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (isActive != other.isActive)
-			return false;
-		if (ownRecipes == null) {
-			if (other.ownRecipes != null)
-				return false;
-		} else if (!ownRecipes.equals(other.ownRecipes))
-			return false;
-		if (password == null) {
-			if (other.password != null)
-				return false;
-		} else if (!password.equals(other.password))
-			return false;
-		if (roles == null) {
-			if (other.roles != null)
-				return false;
-		} else if (!roles.equals(other.roles))
-			return false;
-		if (username == null) {
-			if (other.username != null)
-				return false;
-		} else if (!username.equals(other.username))
-			return false;
-		if (votes == null) {
-			if (other.votes != null)
-				return false;
-		} else if (!votes.equals(other.votes))
-			return false;
 		return true;
 	}
-
 
 	
 }

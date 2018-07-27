@@ -11,7 +11,6 @@ import pl.myrecipebasket.model.User;
 import pl.myrecipebasket.model.Vote;
 import pl.myrecipebasket.model.VoteType;
 import pl.myrecipebasket.repository.RecipeRepository;
-import pl.myrecipebasket.repository.RoleRepository;
 import pl.myrecipebasket.repository.UserRepository;
 import pl.myrecipebasket.repository.VoteRepository;
 

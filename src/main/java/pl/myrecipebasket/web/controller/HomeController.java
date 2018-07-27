@@ -1,7 +1,5 @@
 package pl.myrecipebasket.web.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,12 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import pl.myrecipebasket.model.Category;
-import pl.myrecipebasket.model.Recipe;
-import pl.myrecipebasket.model.Role;
 import pl.myrecipebasket.model.User;
-import pl.myrecipebasket.model.Vote;
 import pl.myrecipebasket.service.CategoryService;
+import pl.myrecipebasket.service.CommentService;
 import pl.myrecipebasket.service.RecipeService;
 import pl.myrecipebasket.service.UserService;
 
@@ -25,6 +20,7 @@ public class HomeController {
 	CategoryService categoryService;
 	RecipeService recipeService;
 	UserService userService;
+	CommentService commentService;
 	Authentication authentication;
 	String loggedUserUsername;
 	
@@ -37,6 +33,11 @@ public class HomeController {
 	@Autowired
 	public void setCategoryService(CategoryService categoryService) {
 		this.categoryService = categoryService;
+	}
+	
+	@Autowired
+	public void setCommentService(CommentService commentService) {
+		this.commentService = commentService;
 	}
 	
 	@Autowired
@@ -53,6 +54,7 @@ public class HomeController {
 	public String home(@RequestParam(value="cName",required=false,defaultValue="all") String cName, Model model) {
 		model.addAttribute("categories", categoryService.getCategories());
 		model.addAttribute("recipes", recipeService.getAllSharedRecipesWithinCategory(cName));
+		model.addAttribute("comments",commentService.getAllComments());
 		return "homepage";
 	}
 	
@@ -60,6 +62,7 @@ public class HomeController {
 	public String homepage(@RequestParam(value="cName",required=false,defaultValue="all") String cName,Model model) {
 		model.addAttribute("categories", categoryService.getCategories());
 		model.addAttribute("recipes", recipeService.getAllSharedRecipesWithinCategory(cName));
+		model.addAttribute("comments",commentService.getAllComments());
 		return "homepage";
 	}
 	

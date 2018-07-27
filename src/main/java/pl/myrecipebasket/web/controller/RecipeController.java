@@ -2,28 +2,21 @@ package pl.myrecipebasket.web.controller;
 
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.function.Predicate;
-import java.util.ArrayList;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import pl.myrecipebasket.model.Category;
 import pl.myrecipebasket.model.Recipe;
 import pl.myrecipebasket.model.User;
-import pl.myrecipebasket.repository.RecipeRepository;
 import pl.myrecipebasket.service.CategoryService;
 import pl.myrecipebasket.service.RecipeService;
 import pl.myrecipebasket.service.UserService;
@@ -179,6 +172,7 @@ public class RecipeController {
 		recipeToModify.setrDescription(recipe.getrDescription());
 		recipeToModify.setrCategories(recipe.getrCategories());
 		recipeService.saveRecipe(recipeToModify);
+		
 		return "redirect:userpage";
 	}
 	
