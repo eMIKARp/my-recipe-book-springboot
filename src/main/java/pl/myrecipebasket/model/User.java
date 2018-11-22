@@ -20,6 +20,34 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.NotEmpty;
 
+/**
+ * 
+ * Object <b>{@code User}</b> represents a person who created an account in 
+ * <em>MyRecipeBasket</em> application and is using it to store and share links 
+ * to recipes found on some external web sites.
+ * <br>
+ * <br>
+ * An <b>{@code User}</b> has:
+ * <ul>
+ * 	<li> {@code username} - a name that {@code User} have chosen to use within <em>MyRecipeBasket</em> application</li>
+ * 	<li> {@code email} - an email address provided by {@code User} when creating account</li> 
+ *  <li> {@code password} - a password provided by {@code User} when creating account</li>
+ *  <li> {@code isActive} - a flag which state if {@code User} is active and can perform {@code User} specific actions</li>
+ *  <li> {@code roles} - a list of {@code Roles} that have been assigned to {@code User}</li>
+ *  <li> {@code ownRecipes} - a list of {@code Recipes} added to <em>MyRecipeBasket</em> database by this {@code User} </li>
+ *  <li> {@code favRecipes} - a list of {@code Recipes} that this {@code User} added to his favorite section</li>
+ *  <li> {@code votes} - a list of {@code Votes} left by this {@code User}</li>
+ *  <li> {@code comments} - a list of {@code Comments} left by this {@code User}</li>
+ * </ul>
+ * 
+ * @see pl.myrecipebasket.model.Role
+ * @see pl.myrecipebasket.model.Recipe
+ * @see pl.myrecipebasket.model.Vote
+ * @see pl.myrecipebasket.model.Comment
+ * 
+ *  
+ */
+
 @Entity
 @Table(name="user")
 public class User implements Serializable{

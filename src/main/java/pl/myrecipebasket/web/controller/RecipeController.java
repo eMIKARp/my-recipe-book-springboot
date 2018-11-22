@@ -21,35 +21,117 @@ import pl.myrecipebasket.service.CategoryService;
 import pl.myrecipebasket.service.RecipeService;
 import pl.myrecipebasket.service.UserService;
 
+/**
+ * Object <b>{@code RecipeController}</b> is responsible for handling all 
+ * {@code Recipe} related requests. Its main task is to receive input from {@code User}, 
+ * process it using proper Services and display response by invoking appropriate
+ * html.page.
+ * 
+ * @see pl.myrecipebasket.model.Recipe
+ * @see pl.myrecipebasket.model.User
+ *
+ */
+
 @Controller
 public class RecipeController {
 
+	/**
+	 * {@code CategoryService} field declaration 
+	 */
+	
 	CategoryService categoryService;
+	
+	/**
+	 * {@code RecipeService} field declaration 
+	 */
+	
 	RecipeService recipeService;
+	
+	/**
+	 * {@code UserService} field declaration 
+	 */
+	
 	UserService userService;
+	
+	/**
+	 * {@code Authentication} field declaration
+	 */
+	
 	Authentication authentication;
+	
+	/**
+	 * {@code loggedUserUsername} field declaration 
+	 */
+	
 	String loggedUserUsername;
+	
+	/**
+	 * This method return logged {@code User} name
+	 * @return loggedUserUsername; 
+	 */
+	
 	
 	public String getLoggedUserUsername() {
 		authentication = SecurityContextHolder.getContext().getAuthentication();
 		loggedUserUsername=authentication.getName();
 		return loggedUserUsername;
 	}
+
+	/**
+	 * This method injects {@code UserService} object into {@code RecipeController}
+	 * and enables {@code RecipeController} to have access to all {@code User} related 
+	 * business logic of <em>MyRecipeBasket</em> application
+	 * 
+	 * @param UserService - {@code UserService} object
+	 * 
+	 * @see pl.myrecipebasket.model.User
+	 * 
+	 */
 	
 	@Autowired
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
 	
+	/**
+	 * This method injects {@code CategoryService} object into {@code RecipeController}
+	 * and enables {@code RecipeController} to have access to all {@code Category} related 
+	 * business logic of <em>MyRecipeBasket</em> application
+	 * 
+	 * @param CategoryService - {@code CategoryService} object
+	 * 
+	 * @see pl.myrecipebasket.model.Category
+	 * 
+	 */
+	
 	@Autowired
 	public void setCategoryService(CategoryService categoryService) {
 		this.categoryService = categoryService;
 	}
 	
+	/**
+	 * This method injects {@code RecipeService} object into {@code RecipeController}
+	 * and enables {@code RecipeController} to have access to all {@code Recipe} related 
+	 * business logic of <em>MyRecipeBasket</em> application
+	 * 
+	 * @param RecipeService - {@code RecipeService} object
+	 * 
+	 * @see pl.myrecipebasket.model.Recipe
+	 * 
+	 */
+	
 	@Autowired
 	public void setRecipeService(RecipeService recipeService) {
 		this.recipeService = recipeService;
 	}
+	
+	/**
+	 * This method serves {@code add.html} page as a response to {@code GET} request send 
+	 * by {@code User} to URI ("/add")
+	 *  
+	 * @param model an object which stores and transfers attributes between controllers and html pages
+	 * @return {@code add.html} page
+	 */
 	
 	@GetMapping("/add")
 	public String addRecipe(Model model) {
@@ -59,6 +141,16 @@ public class RecipeController {
 		
 		return "add";
 	}
+	
+	/**
+	 * This method receives {@code Recipe} related data provided by {@code User} 
+	 * via {@code add.html} form and persist this data in <em>MyRecipeBasket</em>
+	 * database using appropriate services.
+	 * 
+	 * @param recipe {@code Recipe} that {@code User} wants to add 
+	 * @param model an object which stores and transfers attributes between controllers and html pages
+	 * @return {@code recipeadded.html} page
+	 */
 	
 	@PostMapping("/add")
 	public String submitRecipe(@ModelAttribute Recipe recipe, Model model) {
@@ -85,10 +177,28 @@ public class RecipeController {
 		return "redirect:recipeadded";
 	}
 	
+	/**
+	 * This method serves {@code recipeadded.html} page as a response to {@code GET} request send 
+	 * by {@code User} to URI ("/recipeadded")
+	 *  
+	 * @param model an object which stores and transfers attributes between controllers and html pages
+	 * @return {@code recipeadded.html} page
+	 */
+	
+	
 	@GetMapping("/recipeadded")
 	public String addRecipeSuccess(Model model) {
 		return "recipeadded";
 	}
+	
+	/**
+	 * This method changes changes {@code isShared} field of {@code Recipe} that
+	 * have not been previously shared by {@code User} who created it
+	 * 
+	 * @param recipeId {@code Recipe} which {@code User} wants to share with other {@code Users}
+	 * @param model an object which stores and transfers attributes between controllers and html pages
+	 * @return {@code recipeshared.html} page
+	 */
 	
 	@GetMapping("/share")
 	public String shareRecipe(@RequestParam long recipeId, Model model) {
@@ -99,6 +209,17 @@ public class RecipeController {
 		}
 		return "redirect:recipeshared";
 	}
+	
+	/**
+	 * 
+	 * This method adds {@code Recipe} to currently logged {@code Users} list of favorite 
+	 * {@code Recipes}   
+	 * 
+	 * @param recipeId {@code Recipe} which {@code User} wants to add to favorites
+	 * @param model an object which stores and transfers attributes between controllers and html pages 
+	 * @return {@code homepage.html} page
+	 * 
+	 */
 	
 	@RequestMapping("/favourite")
 	public String addRecipeToFav(@RequestParam long recipeId, Model model) {
@@ -115,6 +236,16 @@ public class RecipeController {
 		return "redirect:homepage";
 	}
 	
+	/**
+	 * 
+	 * This method removes {@code Recipe} from currently logged {@code Users} list of favorite 
+	 * {@code Recipes}   
+	 * 
+	 * @param recipeId {@code Recipe} which {@code User} wants to remove from favorites
+	 * @param model an object which stores and transfers attributes between controllers and html pages 
+	 * @return {@code reciperemoved.html} page
+	 */
+	
 	@GetMapping("/remove")
 	public String removeRecipe(@RequestParam long recipeId, Model model) {
 		
@@ -129,22 +260,50 @@ public class RecipeController {
 		return "redirect:reciperemoved";
 	}
 	
+	/**
+	 * This method serves {@code reciperemoved.html} page as a response to {@code GET} 
+	 * request send by {@code User} to URI ("/reciperemoved")
+	 * 
+	 * @return {@code reciperemoved.html} page
+	 */
+	
 	@GetMapping("/reciperemoved")
 	public String recipeRemoved() {
 		return "reciperemoved";
 	}
+	
+	/**
+	 * This method serves {@code recipeshared.html} page as a response to {@code GET} 
+	 * request send by {@code User} to URI ("/recipeshared")
+	 * 
+	 * @return {@code reciperemoved.html} page
+	 */
 	
 	@GetMapping("/recipeshared")
 	public String recipeShared() {
 		return "recipeshared";
 	}
 	
+	/**
+	 * This method serves {@code modifyforbidden.html} page as a response to {@code GET} 
+	 * request send by {@code User} to URI ("/modifyforbidden")
+	 * 
+	 * @return {@code reciperemoved.html} page
+	 */
+	
 	@GetMapping("/modifyforbidden")
 	public String forbidModify() {
 		return "modifyforbidden";
 	}
 	
-	
+	/**
+	 * This method serves {@code modify.html} page or {@code modifyforbidden.html} as a 
+	 * response to {@code GET} request send to URI ("/modify") 
+	 * 
+	 * @param recipeId {@code Recipe} which {@code User} wants to modify
+	 * @param model an object which stores and transfers attributes between controllers and html pages
+	 * @return {@code modify.html} page or {@code modifyforbidden.html} page
+	 */
 	
 	@GetMapping("/modify")
 	public String modifyRecipe(@RequestParam long recipeId, Model model) {
@@ -161,6 +320,15 @@ public class RecipeController {
 		}
 		
 	}
+	
+	/**
+	 * This method modifies existing {@code Recipe}
+	 * 
+	 * @param recipe a {@code Recipe} object which holds details of change to be implemented 
+	 * @param recipeId an id of {@code Recipe} that {@code User} wants to modify
+	 * @param model an object which stores and transfers attributes between controller and html.pages
+	 * @return {@code userpage.html} page
+	 */
 	
 	@PostMapping("/modify")
 	public String modifyRecipe(@ModelAttribute Recipe recipe, @RequestParam long recipeId, Model model) {

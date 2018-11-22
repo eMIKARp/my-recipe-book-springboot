@@ -11,6 +11,24 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ * 
+ * Object <b>{@code Vote}</b> represents {@code User's} opinion about particular {@code Recipe}, which can be positive or negative.
+ * <br>   
+ * <br>
+ * A <b>{@code Vote}</b> has:
+ * <ul>
+ * 	<li>{@code user} - a reference to {@code User} who left this {@code Vote}</li>
+ * 	<li>{@code recipe} - a reference to {@code Recipe} which it concerns</li>
+ * 	<li>{@code date} - a time stamp when {@code Vote} had been left</li>
+ * <li>{@code voteType} - an information if {@code Vote} supports or opposes {@code Recipe} it concerns</li>
+ * </ul>   
+ *
+ *@see pl.myrecipebasket.model.User
+ *@see pl.myrecipebasket.model.Recipe
+ *
+ */
+
 @Entity
 @Table(name="vote")
 public class Vote implements Serializable{

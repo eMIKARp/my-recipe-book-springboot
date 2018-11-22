@@ -1,0 +1,6 @@
+pl.myrecipebasket
+pl.myrecipebasket.model
+pl.myrecipebasket.repository
+pl.myrecipebasket.security
+pl.myrecipebasket.service
+pl.myrecipebasket.web.controller

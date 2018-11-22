@@ -21,6 +21,33 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.type.descriptor.java.UUIDTypeDescriptor.ToBytesTransformer;
+
+/**
+ *
+ * Object <b>{@code Recipe}</b> represents a recipe placed on an external 
+ * web site that {@code User} finds worth storing for later use.
+ * <br>
+ * <br> 
+ * A <b>{@code Recipe}</b> has:
+ * <ul>
+ * 	<li> {@code rName} - recipe name (e.g. "Recipe for homemade pancakes")</li>
+ * 	<li> {@code rDescription} - recipe description (e.g. "This is my favorite recipe for homemade pancakes. Perfect taste and healthy ingredients")</li>
+ * 	<li> {@code rUrl} - url address of web site where recipe is originally stored</li>
+ * 	<li> {@code rDate} - time stamp when <code>Recipe</code> has been added to <em>MyRecipeBasket</em> database</li>
+ * 	<li> {@code UpVote} & {@code DownVote} - information about number of supporting and opposing {@code Votes} left by <em>MyRecipeBasket</em> community</li>
+ * 	<li> {@code isShared} - a flag which changes its value if {@code User} who added {@code Recipe} wants it to be shared with other <em>MyRecipeBasket</em> {@code Users}</li>
+ * 	<li> {@code rCategories} - a list of {@code Categories} that are assigned to {@code Recipe}</li>
+ * 	<li> {@code usrWhoAddedRecipe} - a reference to {@code User} who created {@code Recipe} 
+ * 	<li> {@code votes} - a list of {@code Votes} left by <em>MyRecipeBasket</em> community</li>
+ * 	<li> {@code comments} - a list of {@code Comments} left by <em>MyRecipeBasket</em> community</li>
+ * 	<li> {@code usrWhoAddedRecipeToFavourites} - a list of {@code Users} who added this recipe to their favorite section</li> 
+ * </ul> 
+ * 
+ * @see pl.myrecipebasket.model.User
+ * @see pl.myrecipebasket.model.Vote
+ * @see pl.myrecipebasket.model.Comment
+ */
 
 @Entity
 @Table(name="recipe")
@@ -35,12 +62,12 @@ public class Recipe implements Serializable{
 	private String rName;
 	private String rDescription;
 	private String rUrl;
-	private Timestamp Date;
+	private Timestamp rDate;
 	private int UpVote;
 	private int DownVote;
 	private boolean isShared;
 	
-	@ManyToMany (cascade= {CascadeType.PERSIST})
+	@ManyToMany
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@JoinTable(name="recipe_category",
 		joinColumns= {@JoinColumn(name="recipe_id", referencedColumnName="id_recipe")},
@@ -68,8 +95,6 @@ public class Recipe implements Serializable{
 		
 	}
 	
-	
-
 	public Recipe(String rName, String rDescription, String rUrl, Timestamp date, int upVote, int downVote,
 			boolean isShared, List<Category> rCategories, User usrWhoAddedRecipe, List<Vote> votes,
 			List<Comment> comments, List<User> usrWhoAddedRecipeToFavourites) {
@@ -77,7 +102,7 @@ public class Recipe implements Serializable{
 		this.rName = rName;
 		this.rDescription = rDescription;
 		this.rUrl = rUrl;
-		Date = date;
+		rDate = date;
 		UpVote = upVote;
 		DownVote = downVote;
 		this.isShared = isShared;
@@ -129,7 +154,7 @@ public class Recipe implements Serializable{
 	}
 
 	public Timestamp getDate() {
-		return Date;
+		return rDate;
 	}
 
 	public int getUpVote() {
@@ -177,7 +202,7 @@ public class Recipe implements Serializable{
 	}
 
 	public void setDate(Timestamp date) {
-		Date = date;
+		rDate = date;
 	}
 
 	public void setUpVote(int upVote) {

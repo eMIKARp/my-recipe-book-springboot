@@ -16,6 +16,25 @@ import javax.persistence.Table;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
+/**
+ * Object <b><code>Category</code></b> represents a category of meals, dishes,
+ * food occasions etc., to which a <code>Recipe</code> can be assigned to and
+ * by which a <code>Recipe</code> can be described by.
+ * <br>
+ * <br> 
+ * A <b><code>Category</code></b> has:
+ * <ul>
+ * 	<li> <code>cName</code> - category name (e.g. Lunch, Dinner, Vegetarian)</li>
+ * 	<li> <code>cType</code> - category type (<code>USER_DEFINED</code>, <code>PRE_DEFINED</code>)</li>  
+ *	<li> <code>cDescription</code> - category description</li>
+ *	<li> <code>cRecipes</code> - list of <code>Recipes</code> that are assigned to this <code>Category</code></li> 
+ * </ul> 
+ * 
+ * @see pl.myrecipebasket.model.Recipe
+ * @see pl.myrecipebasket.model.CategoryType
+ *
+ */
+
 @Entity
 @Table(name="category")
 public class Category implements Serializable{

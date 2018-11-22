@@ -249,6 +249,10 @@ body {
         display: none;
     }
     
+    .myTopNav form {
+    	display:none;
+    }
+    
     .myTopNav a.icon{
         display: flex;
     }

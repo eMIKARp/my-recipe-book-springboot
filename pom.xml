@@ -6,7 +6,6 @@
 	<groupId>pl.myrecipebasket</groupId>
 	<artifactId>myrecipebasket</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
 
 	<name>myrecipebasket</name>
 	<description>A web service to gather and share links to food recipes</description>
@@ -74,10 +73,21 @@
 	</dependencies>
 
 	<build>
+		<finalName>myrecipebasket</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+					<configuration>
+					<executable>true</executable>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				 <configuration>
+			        <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+			    </configuration>
 			</plugin>
 		</plugins>
 	</build>

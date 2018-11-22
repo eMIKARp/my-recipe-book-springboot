@@ -14,6 +14,29 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+/**
+ * Object <b><code>Comment</code></b> represents a message that can
+ * be left by <code>User</code> who wants to share his/hers opinion
+ * about particular <code>Recipe</code> with other <code>Users</code>. 
+ * <br>
+ * <br>
+ * A <b><code>Comment</code></b> has:
+ * <ul>
+ * 	<li> <code>title</code> - message title (e.g. "Best pancakes ever!")</li>
+ *  <li> <code>contents</code> - message contents (e.g. "Using this recipe I've 
+ *  prepared pancakes for me and my family last night. They were delicious!)</li> 
+ *  <li> <code>date</code> - time stamp when <code>Comment</code> has  been created</li> 
+ *  <li> <code>images</code> - list of <code>Images</code> uploaded by <code>User</code></li> 
+ * 	<li> <code>recipeWithComment</code> - reference to <code>Recipe</code> it concerns</li>
+ * 	<li> <code>userWhoLeftComment</code> - reference to <code>User</code> who created it</li>
+ * </ul> 
+ * 
+ * @see pl.myrecipebasket.model.User
+ * @see pl.myrecipebasket.model.Recipe
+ * @see pl.myrecipebasket.model.Image
+ *
+ */
+
 @Entity
 public class Comment implements Serializable{
 

@@ -7,6 +7,26 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+/**
+ *
+ * Object <b><code>Image</code></b> represents an image of a dish prepared according 
+ * to a <code>Recipe</code> and is attached to a <code>Comment<code> by <code>User</code> 
+ * <br>
+ * <br> 
+ * An <b><code>Image</code></b> has: 
+ * <ul>
+ * 	<li> <code>name</code> - file name (e.g. "mypancakes.jpg")</li>
+ *  <li> <code>pathToImage</code> - file path (e.g. "img/mypancakes.jpg")
+ *  <li> <code>comment</code> - a reference to a <code>Comment</code> to which 
+ *  it is attached.  
+ * </ul>
+ * 
+ * @see pl.myrecipebasket.model.Recipe
+ * @see pl.myrecipebasket.model.Comment
+ * @see pl.myrecipebasket.model.User
+ *  
+ */
+
 @Entity
 public class Image {
 

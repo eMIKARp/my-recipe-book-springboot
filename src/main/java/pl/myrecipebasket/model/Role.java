@@ -16,6 +16,24 @@ import javax.persistence.Table;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
+/**
+ *
+ * Object <b>{@code Role}</b> represents an authorization level that can be 
+ * assigned to a {@code User} and defines what sort of actions {@code User} is 
+ * allowed to undertake within <em>MyRecipeBasket</em> environment.
+ * <br>
+ * <br>
+ * A <b>{@code Role}</b> has:
+ * <ul>
+ * 	<li>{@code role} - a {@code Role} name </li>
+ * 	<li>{@code description} - a {@code Role} description</li>
+ * 	<li>{@code users} - a list of {@code Users} that have this {@code Role}</li>
+ * </ul>
+ *
+ * @see pl.myrecipebasket.model.User
+ * 
+ */
+
 @Entity
 @Table(name="role")
 public class Role implements Serializable{
