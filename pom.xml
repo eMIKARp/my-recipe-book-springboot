@@ -89,6 +89,7 @@
 			        <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
 			    </configuration>
 			</plugin>
+			
 		</plugins>
 	</build>
 
